@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareSlot - Live demo</title>
+<meta name="theme-color" content="#0E3B3A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='8' fill='%230E3B3A'/%3E%3Crect x='8' y='19' width='16' height='5' rx='2.5' fill='%23FF7A59'/%3E%3C/svg%3E">
+</head>
+<body class="app">
+<header class="abar">
+  <a href="index.html" class="logo"><span class="logo-mark"></span>CareSlot</a>
+  <div class="abar-r">
+    <button class="obtn" data-a="outbox" title="Emails the system sent"><span class="hide-s">Email </span>Outbox <span class="badge" id="obCount">0</span></button>
+    <span id="who"></span>
+  </div>
+</header>
+<main id="app" class="app-main"></main>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-h"><b>Email outbox</b><button data-a="closeOutbox" aria-label="Close">&times;</button></div>
+  <p class="muted small" style="padding:0 18px">In the real system these go to the inbox. Here you can read them.</p>
+  <div id="obList"></div>
+</aside>
+<div class="scrim" id="scrim" data-a="closeOutbox"></div>
+<div class="toast" id="toast"><i>&#10003;</i><span id="toastMsg"></span></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

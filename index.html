@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareSlot - The room is ready for you</title>
+<meta name="description" content="Book a doctor in seconds. Doctors set their own windows. Every room is reset by a trainer before the next visit. Concept demo.">
+<meta name="theme-color" content="#0A1C1B">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='8' fill='%230E3B3A'/%3E%3Crect x='8' y='19' width='16' height='5' rx='2.5' fill='%23FF7A59'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.remove('no-js')</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+
+<header class="nav is-dark" id="nav">
+  <a href="#top" class="logo"><span class="logo-mark"></span>CareSlot</a>
+  <nav class="nav-links">
+    <a href="#book">Book</a><a href="#doctors">Doctors</a><a href="#reset">Reset</a><a href="#admin">Admin</a>
+  </nav>
+  <a href="app.html" class="btn btn-solid">Live demo <span class="arr">&rarr;</span></a>
+</header>
+
+<!-- 1. HERO: the room wakes up -->
+<section class="hero" id="top">
+  <div class="hero-stage">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-fallback"></div>
+    <div class="hero-grain"></div>
+    <div class="scroll-hint" id="scrollHint">Scroll to open the room<i></i></div>
+    <div class="hero-progress" id="heroProg"><span></span><span></span><span></span><span></span></div>
+    <div class="hero-copy">
+      <div>
+        <h1>The room is <em>ready</em> for you.</h1>
+        <p class="hero-sub">Book a doctor in seconds. Doctors choose their hours. And after every visit, someone resets the room for the next person.</p>
+        <div class="hero-cta">
+          <a href="#book" class="btn btn-coral">Book a visit <span class="arr">&rarr;</span></a>
+          <a href="app.html" class="btn btn-ghost">Try the live demo</a>
+        </div>
+      </div>
+      <div class="hero-clock"><div class="t" id="heroTime">07:52</div><div class="s" id="heroStep">Lights off</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. statement: three people -->
+<section class="statement wrap" id="story">
+  <span class="eyebrow"><i></i>Behind every calm visit</span>
+  <p id="statement" style="margin-top:24px">Three people, one room. The one who comes in, the one who cares, and the one who makes it ready again.</p>
+  <div class="roles">
+    <div class="role" data-reveal><b>01 / Customer</b><span><i class="dot" style="background:var(--coral)"></i>Picks a free time</span></div>
+    <div class="role" data-reveal><b>02 / Doctor</b><span><i class="dot" style="background:var(--teal-3)"></i>Accepts, or lets the window decide</span></div>
+    <div class="role" data-reveal><b>03 / Trainer &amp; cleaner</b><span><i class="dot" style="background:var(--mint-3)"></i>Resets the room, plus extras</span></div>
+  </div>
+</section>
+
+<!-- 3. BOOK -->
+<section class="chapter" id="book">
+  <div class="wrap">
+    <div class="ch-head">
+      <div class="ch-num">01</div>
+      <div data-reveal>
+        <span class="eyebrow"><i></i>Customer</span>
+        <h2 style="margin-top:14px">Pick a time that is <em>actually</em> free.</h2>
+        <p>The calendar only shows real openings from each doctor. Tap one and the slot is held for you while you confirm. Move it or cancel any time, and an email confirms every change.</p>
+      </div>
+    </div>
+
+    <div class="book-grid">
+      <div class="card booker" data-reveal>
+        <div class="docs" id="docList"></div>
+        <div class="days" id="dayList"></div>
+        <div class="slots" id="slotList"></div>
+        <div class="legend"><span style="--b:#fff;border:0">Free</span><span style="--b:var(--coral)">Your pick</span><span style="--b:#e3e9e7">Taken</span></div>
+      </div>
+      <div class="card ticket" id="ticket" data-reveal>
+        <div class="tk-label">Your appointment</div>
+        <div class="tk-time" id="tkTime">--:--</div>
+        <div class="status" id="tkStatus"><i></i>Choose a time</div>
+        <div>
+          <div class="tk-row"><span>Doctor</span><b id="tkDoc">-</b></div>
+          <div class="tk-row" style="margin-top:10px"><span>Day</span><b id="tkDay">-</b></div>
+          <div class="tk-row" style="margin-top:10px"><span>Room</span><b id="tkRoom">-</b></div>
+        </div>
+        <button class="btn btn-coral" id="tkConfirm" disabled>Confirm booking <span class="arr">&rarr;</span></button>
+      </div>
+    </div>
+
+    <div class="book-media">
+      <div class="media parallax" data-reveal><img src="assets/img/consult.webp" alt="Doctor talking with a patient across a desk" loading="lazy"><span class="cap">09:30 - first visit</span></div>
+      <div class="media parallax" data-reveal><img src="assets/img/tablet.webp" alt="Doctor showing a patient a scan on a tablet" loading="lazy"><span class="cap">Results on the spot</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. DOCTOR -->
+<section class="chapter doctor" id="doctors">
+  <div class="wrap">
+    <div class="ch-head">
+      <div class="ch-num">02</div>
+      <div data-reveal>
+        <span class="eyebrow"><i></i>Doctor</span>
+        <h2 style="margin-top:14px">Doctors decide. Or let the <em>window</em> decide.</h2>
+        <p>Each doctor opens auto-accept windows for the hours they are free. Bookings inside a window are confirmed at once. Anything outside waits for one tap: accept or decline.</p>
+      </div>
+    </div>
+    <div class="doc-grid">
+      <div class="media parallax" data-reveal><img src="assets/img/comfort.webp" alt="Doctor reassuring a patient with a hand on the arm" loading="lazy"><span class="cap">Dr. Ananya Rao - Physiotherapy</span></div>
+      <div class="card windows" data-reveal>
+        <h3>Today, Dr. Rao</h3>
+        <div class="sub">Glowing bands = auto-accept windows</div>
+        <div class="track" id="track">
+          <div class="band" style="left:calc(100%/12*2);width:calc(100%/12*2.5)">AUTO 10:00-12:30</div>
+          <div class="band" style="left:calc(100%/12*8);width:calc(100%/12*2)">AUTO 16:00-18:00</div>
+        </div>
+        <div class="ticks"><span>08</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span></div>
+        <div class="reqs" id="reqs"></div>
+        <div class="toggle-row">
+          <div><b>Auto-accept inside windows</b><br><small style="color:var(--ink-soft)">Turn off to review every request by hand</small></div>
+          <button class="switch on" id="autoSwitch" aria-label="Toggle auto accept" aria-pressed="true"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. RESET: the cleaner's cinematic moment -->
+<section class="reset" id="reset">
+  <div class="reset-pin" id="resetPin">
+    <div class="reset-stage">
+      <canvas class="reset-canvas" id="resetCanvas" aria-hidden="true"></canvas>
+      <div class="reset-copy">
+        <span class="eyebrow"><i></i>03 / Trainer &amp; cleaner</span>
+        <h2>After you leave, <em>someone makes it ready</em> again.</h2>
+        <p>When a visit ends, the system assigns the room to a trainer or cleaner. The doctor can add extras. Nobody walks into a used room.</p>
+        <div class="task">
+          <div class="task-top"><span>Room 2 - after 10:15</span><span>Assigned: Vikram</span></div>
+          <h4>Reset treatment room</h4>
+          <ul id="taskList">
+            <li><i></i>Sanitize bed and replace sheet</li>
+            <li><i></i>Wipe lamp, cart and handles</li>
+            <li><i></i>Restock gloves and gel</li>
+            <li><i></i>Return resistance bands <span class="x">+ extra from Dr. Rao</span></li>
+          </ul>
+          <div class="task-state" id="taskState">In progress...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reset-after">
+    <div class="wrap">
+      <div class="mosaic">
+        <div class="media" data-reveal><video src="assets/video/reset.mp4" poster="assets/img/reset-poster.jpg" muted loop playsinline preload="metadata" data-autoplay></video><span class="cap">Every surface, every visit</span></div>
+        <div class="media parallax" data-reveal><img src="assets/img/instruments.webp" alt="Sealed sterile single-use syringes" loading="lazy"><span class="cap">Sealed and sterile</span></div>
+        <div class="media parallax" data-reveal><img src="assets/img/gymwall.webp" alt="Exercise balls, rings and bands neatly hung on a wooden wall" loading="lazy"><span class="cap">Bands back on the wall</span></div>
+        <div class="media parallax" data-reveal style="grid-column:span 2"><img src="assets/img/stretch.webp" alt="Trainer guiding a woman through a leg stretch at a barre" loading="lazy" style="object-position:center 35%"><span class="cap">Trainer ready for the next slot</span></div>
+      </div>
+      <div class="mosaic-note" data-reveal>
+        <b>50 trainers, 20 doctors, one clean handover.</b>
+        <span style="max-width:420px">Tasks go out by email the moment a visit ends. Trainers tick items off on their phone, and the room is marked ready for the next booking.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ADMIN -->
+<section class="chapter" id="admin">
+  <div class="wrap">
+    <div class="ch-head">
+      <div class="ch-num">04</div>
+      <div data-reveal>
+        <span class="eyebrow"><i></i>Admin</span>
+        <h2 style="margin-top:14px">The whole day, in <em>one room.</em></h2>
+        <p>See every customer and appointment. Filter, fix a booking by hand, and export to Excel or CSV for reports. Try the export below: it downloads a real file.</p>
+      </div>
+    </div>
+    <div class="card admin-shell" data-reveal>
+      <aside class="side">
+        <div class="logo"><span class="logo-mark"></span>Admin</div>
+        <a class="on" href="#admin">Appointments</a><a href="#admin">Customers</a><a href="#admin">Doctors</a><a href="#admin">Trainers</a><a href="#admin">Reports</a>
+      </aside>
+      <div class="main">
+        <div class="stats">
+          <div class="stat"><small>Customers</small><b data-count="842">0</b></div>
+          <div class="stat"><small>Today's visits</small><b data-count="64">0</b></div>
+          <div class="stat"><small>Auto-accepted</small><b data-count="71" data-suffix="%">0</b></div>
+          <div class="stat"><small>Rooms ready</small><b data-count="18" data-suffix="/20">0</b></div>
+        </div>
+        <div class="toolbar">
+          <div class="chips" id="chips"></div>
+          <button class="btn btn-solid" id="exportBtn" style="padding:10px 16px;font-size:14px">Export CSV &darr;</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Customer</th><th>Doctor</th><th>Time</th><th>Trainer</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. built-in -->
+<section class="chapter" style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow" data-reveal><i></i>Built in from day one</span>
+    <div class="feats" style="margin-top:26px">
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><h4>Secure sign-in</h4><p>Email verification, hashed passwords, safe sessions and a forgot-password flow.</p></div>
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg><h4>Email on every action</h4><p>Booked, moved, cancelled, accepted, room ready. Everyone knows, nobody has to ask.</p></div>
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg><h4>Live calendar</h4><p>Book, reschedule or cancel in a tap. Slots update the moment someone books.</p></div>
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><h4>Excel and CSV export</h4><p>Customer and appointment reports, filtered the way you need them.</p></div>
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></svg><h4>REST API inside</h4><p>A mobile app can be added later on the same backend, with no rebuild.</p></div>
+      <div class="feat" data-reveal><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg><h4>Any screen</h4><p>Phone, tablet or desktop browser. No app download needed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. finale -->
+<section class="finale">
+  <div class="wrap finale-grid">
+    <div data-reveal>
+      <span class="eyebrow"><i></i>Room 2 - 10:30 - ready</span>
+      <h2 style="margin-top:18px">Your room is <em>ready.</em></h2>
+      <p>Sign up, verify your email and book your first visit in under a minute. Or open the live demo and try all four roles yourself.</p>
+      <div class="cta"><a href="app.html" class="btn btn-solid">Open live demo <span class="arr">&rarr;</span></a><a href="#book" class="btn btn-ghost">Book a time</a></div>
+    </div>
+    <div class="media" data-reveal><video src="assets/video/room.mp4" poster="assets/img/room-poster.jpg" muted loop playsinline preload="metadata" data-autoplay></video><span class="cap">Room 2 - reset and ready</span></div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>CareSlot - concept demo with sample data. Brand name, logo and copy will be replaced with yours.</span><span>Photos: Unsplash. Video: Pexels.</span></div></footer>
+
+<div class="toast" id="toast"><i>&#10003;</i><span id="toastMsg"></span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/site.js"></script>
+<script type="module" src="assets/js/room.js"></script>
+</body>
+</html>
